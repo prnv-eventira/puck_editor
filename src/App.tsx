@@ -10,6 +10,7 @@ interface HeadingProps {
   color?: string
   align?: 'left' | 'center' | 'right' | 'justify',
   background?: string;
+  lineHeight?: string | number;
 }
 
 interface TextProps {
@@ -111,13 +112,14 @@ interface SliderProps {
 }
 
 // Component implementations
-const Heading = ({ text, level = 1, color = '#333', align = 'left', background = "transparent" }: HeadingProps) => {
+const Heading = ({ text, level = 1, color = '#333', align = 'left', background = "transparent" , lineHeight = "1.6"}: HeadingProps) => {
   const headingStyle: React.CSSProperties = {
     margin: '16px 0',
     color: color,
     fontWeight: 'bold',
     textAlign: align,
-    backgroundColor: background
+    backgroundColor: background,
+    lineHeight: lineHeight
 
   }
   
@@ -612,6 +614,7 @@ const config = {
             { label: 'Soft Lavender', value: '#f3e5f5' }
           ]
         },
+        lineHeight:{ type: "text" as const }
       },
       defaultProps: {
         text: 'Heading',
