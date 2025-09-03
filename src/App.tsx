@@ -7,7 +7,8 @@ interface HeadingProps {
   text: string
   level?: 1 | 2 | 3 | 4
   color?: string
-  align?: 'left' | 'center' | 'right' | 'justify'
+  align?: 'left' | 'center' | 'right' | 'justify',
+  background?: string;
 }
 
 interface TextProps {
@@ -15,6 +16,9 @@ interface TextProps {
   size?: string
   color?: string
   align?: 'left' | 'center' | 'right' | 'justify'
+  margin?: string;
+  padding?: string;
+  lineHeight?: string | number;
 }
 
 interface ButtonProps {
@@ -84,12 +88,14 @@ interface PositionedElementProps {
 }
 
 // Component implementations
-const Heading: React.FC<HeadingProps> = ({ text, level = 1, color = '#333', align = 'left' }) => {
+const Heading: React.FC<HeadingProps> = ({ text, level = 1, color = '#333', align = 'left', background = "transparent" }) => {
   const headingStyle: React.CSSProperties = {
     margin: '16px 0',
     color: color,
     fontWeight: 'bold',
-    textAlign: align
+    textAlign: align,
+    backgroundColor: background
+
   }
   
   switch (level) {
@@ -101,14 +107,17 @@ const Heading: React.FC<HeadingProps> = ({ text, level = 1, color = '#333', alig
   }
 }
 
-const Text: React.FC<TextProps> = ({ text, size = '16px', color = '#555', align = 'left' }) => {
+const Text: React.FC<TextProps> = ({ text, size = '16px', color = '#555', align = 'left' ,margin = "12px 0",     // 👈 default margin
+  padding = "0",         // 👈 default padding
+  lineHeight = "1.6", }) => {
   return (
     <p style={{ 
-      margin: '12px 0', 
-      lineHeight: '1.6', 
+      margin: margin, 
+      lineHeight: lineHeight, 
       color: color,
       fontSize: size,
-      textAlign: align
+      textAlign: align,
+      padding:padding, 
     }}>
       {text}
     </p>
@@ -345,7 +354,19 @@ const config = {
             { label: 'Right', value: 'right' },
             { label: 'Justify', value: 'justify' }
           ]
-        }
+        },
+        background: { 
+          type: 'select' as const,
+          options: [
+            { label: 'None', value: 'transparent' },
+            { label: 'Light Gray', value: '#f5f5f5' },
+            { label: 'Soft Blue', value: '#e0f7fa' },
+            { label: 'Soft Green', value: '#e8f5e9' },
+            { label: 'Soft Yellow', value: '#fffde7' },
+            { label: 'Soft Pink', value: '#fce4ec' },
+            { label: 'Soft Lavender', value: '#f3e5f5' }
+          ]
+        },
       },
       defaultProps: {
         text: 'Heading',
@@ -375,7 +396,10 @@ const config = {
             { label: 'Right', value: 'right' },
             { label: 'Justify', value: 'justify' }
           ]
-        }
+        },
+        margin: { type: "text" as const },     // 👈 editable margin
+        padding: { type: "text" as const },    // 👈 editable padding
+        lineHeight: { type: "text" as const },
       },
       defaultProps: {
         text: 'This is some sample text. You can edit this content using the Puck editor!',
